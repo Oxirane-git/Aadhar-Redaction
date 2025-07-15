@@ -1,0 +1,52 @@
+[
+    {
+        "file": "WhatsApp Image 2025-07-10 at 14.31.13_8a27d4e3.jpg",
+        "output": "WhatsApp Image 2025-07-10 at 14.31.13_8a27d4e3_redacted.jpg",
+        "status": "success",
+        "boxes": [
+            {
+                "class_id": 0,
+                "coordinates": [
+                    753,
+                    1062,
+                    1469,
+                    1163
+                ]
+            },
+            {
+                "class_id": 0,
+                "coordinates": [
+                    1977,
+                    344,
+                    2043,
+                    891
+                ]
+            }
+        ]
+    },
+    {
+        "file": "Screenshot 2025-07-10 143906.png",
+        "output": "Screenshot 2025-07-10 143906_redacted.png",
+        "status": "success",
+        "boxes": [
+            {
+                "class_id": 0,
+                "coordinates": [
+                    131,
+                    783,
+                    238,
+                    799
+                ]
+            },
+            {
+                "class_id": 0,
+                "coordinates": [
+                    453,
+                    773,
+                    564,
+                    789
+                ]
+            }
+        ]
+    }
+]
