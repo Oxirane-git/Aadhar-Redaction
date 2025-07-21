@@ -3,20 +3,20 @@ from PIL import Image, ImageDraw
 import numpy as np
 import cv2
 import tempfile
-import json
+import os
 from ultralytics import YOLO
 
-MODEL_PATH = "/home/matrix/sahil_project/runs/detect/aadhaar_yolo_v8/weights/best.pt"
-model = YOLO(MODEL_PATH)
+MODEL_PATH = "yolov8_model/best.pt"
 AADHAAR_CLASS_ID = 0
 
+model = YOLO(MODEL_PATH)
+
 st.set_page_config(page_title="Aadhaar Redaction", layout="centered")
-st.title(" Aadhaar Number Redactor ")
+st.title("🔒 Aadhaar Number Redactor")
 
 uploaded_file = st.file_uploader("Upload an Aadhaar card image", type=["png", "jpg", "jpeg", "webp"])
 
 if uploaded_file:
-
     st.image(uploaded_file, caption="Original Image", use_container_width=True)
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_file:
@@ -40,11 +40,9 @@ if uploaded_file:
                 "coordinates": [x1, y1, x2, y2]
             })
 
-    st.subheader("Redacted Image")
+    st.subheader("✅ Redacted Image")
     st.image(pil_image, use_container_width=True)
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as out_img:
         pil_image.save(out_img.name)
-        st.download_button("Download Redacted Image", data=open(out_img.name, "rb").read(), file_name="redacted_aadhaar.png")
-
-
+        st.download_button("📥 Download Redacted Image", data=open(out_img.name, "rb").read(), file_name="redacted_aadhaar.png")
