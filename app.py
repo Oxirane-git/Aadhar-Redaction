@@ -19,10 +19,22 @@ def load_model(model_path: str) -> YOLO:
     return YOLO(model_path)
 
 
-def draw_redactions_on_bgr(image_bgr: np.ndarray, boxes_xyxy: List[Tuple[int, int, int, int]]) -> np.ndarray:
+def draw_redactions_on_bgr(
+    image_bgr: np.ndarray,
+    boxes_xyxy: List[Tuple[int, int, int, int]],
+    keep_last_digits: int = 4,
+    total_digits: int = 12,
+) -> np.ndarray:
+    """
+    Redact detected Aadhaar boxes while keeping the last few digits visible.
+    Assumes digits occupy the box roughly evenly spaced across its width.
+    """
     redacted = image_bgr.copy()
     for (x1, y1, x2, y2) in boxes_xyxy:
-        cv2.rectangle(redacted, (x1, y1), (x2, y2), color=(0, 0, 0), thickness=-1)
+        width = x2 - x1
+        redact_ratio = max(0.0, min(1.0, (total_digits - keep_last_digits) / float(total_digits)))
+        redact_x2 = x1 + int(width * redact_ratio)
+        cv2.rectangle(redacted, (x1, y1), (redact_x2, y2), color=(0, 0, 0), thickness=-1)
     return redacted
 
 
@@ -78,7 +90,7 @@ if mode == "Upload Image":
         image_rgb = np.array(image)
         image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
         boxes = detect_aadhaar_boxes(model, image_bgr, conf_thres)
-        redacted_bgr = draw_redactions_on_bgr(image_bgr, boxes)
+        redacted_bgr = draw_redactions_on_bgr(image_bgr, boxes, keep_last_digits=4)
         redacted_rgb = cv2.cvtColor(redacted_bgr, cv2.COLOR_BGR2RGB)
         redacted_pil = Image.fromarray(redacted_rgb)
 
@@ -131,7 +143,7 @@ if mode == "Live Webcam":
                     display_bgr = frame_bgr
 
                     boxes = detect_aadhaar_boxes(model, display_bgr, conf_thres)
-                    redacted_bgr = draw_redactions_on_bgr(display_bgr, boxes)
+                    redacted_bgr = draw_redactions_on_bgr(display_bgr, boxes, keep_last_digits=4)
                     redacted_rgb = cv2.cvtColor(redacted_bgr, cv2.COLOR_BGR2RGB)
 
                     frame_placeholder.image(redacted_rgb, channels="RGB", use_container_width=True)
