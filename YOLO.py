@@ -3,9 +3,9 @@ import cv2
 from PIL import Image, ImageDraw
 from ultralytics import YOLO
 
-model_path = "/home/matrix/sahil_project/runs/detect/aadhaar_yolo_v8/weights/best.pt"
-input_folder = "/home/matrix/sahil_project/yolodataset/test/images"
-output_folder = "/home/matrix/sahil_project/Result_redaction"
+model_path = "yolo8_model/best.pt"
+input_folder = "Dataset"
+output_folder = "Result_redaction"
 log_file_path = os.path.join(output_folder, "aadhaar_redaction_log.json")
 aadhaar_class_id = 0  
 
@@ -46,16 +46,19 @@ def redact_yolo_only(image_path):
     else:
         print("⚠️ Aadhaar number (class 0) not detected.")
 
+import json
+
 def main():
     images = [f for f in os.listdir(input_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.webp'))]
     if not images:
         print("📂 No valid image files found.")
         return
 
+    log_entries = []
     for file in images:
         redact_yolo_only(os.path.join(input_folder, file))
 
-     with open(log_file_path, "w") as log_file:
+    with open(log_file_path, "w") as log_file:
         json.dump(log_entries, log_file, indent=4)
 
     print(f"\n📄 Log saved to: {log_file_path}")

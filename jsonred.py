@@ -6,9 +6,9 @@ import cv2
 from PIL import Image, ImageDraw
 from ultralytics import YOLO
 
-model_path = "/home/matrix/sahil_project/runs/detect/aadhaar_yolo_v8/weights/best.pt"
-input_folder = "/home/matrix/sahil_project/Test_redaction"
-output_folder = "/home/matrix/sahil_project/Result_redaction"
+model_path = "yolo8_model/best.pt"
+input_folder = "Dataset"
+output_folder = "Result_redaction"
 log_file_path = os.path.join(output_folder, "aadhaar_redaction_log.json")
 aadhaar_class_id = 0
 

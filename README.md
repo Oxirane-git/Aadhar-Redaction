@@ -1,55 +1,72 @@
-# Aadhaar Card Redaction Tool
+<p align="center">
+  <img src="assets/banner.png" alt="Aadhaar Redaction System Banner" width="100%">
+</p>
 
-This project is an AI-powered Aadhaar number redaction system using **YOLOv8 + Tesseract OCR**. It detects and redacts sensitive Aadhaar numbers from scanned images of Aadhaar cards. It also features a user-friendly **Streamlit web app** for interactive use.
+# 🔒 Aadhaar Redaction System
 
-## How It Works
+<p align="center">
+  <i>An AI-powered document verification and redaction tool protecting sensitive PII (Personally Identifiable Information).</i>
+</p>
 
-1. YOLOv8 detects the region containing the Aadhaar number.
-2. Tesseract OCR extracts the text from that region.
-3. The Aadhaar number is identified and redacted using masking or blurring.
-4. Processed output is displayed/downloaded via the Streamlit UI.
+<p align="center">
+  <img src="assets/logo.png" alt="Logo" width="150" style="border-radius:20px;">
+</p>
 
-## Tech Stack
+## 🚀 Overview
 
-- Python
-- YOLOv8 (Ultralytics)
-- Tesseract OCR
-- OpenCV
-- Streamlit
+The **Aadhaar Redaction System** is a high-performance tool built to automatically detect and obscure Aadhaar numbers from scanned identity documents. Using a custom-trained **YOLOv8** model augmented with **Tesseract OCR**, this system operates seamlessly on images, batches of files, and live webcam feeds. It also features a clean, user-friendly UI built with **Streamlit**.
 
-## Features
+## ✨ Key Features
 
-- Automatic Aadhaar number detection
-- Works on realistic Aadhaar card images
-- Redacts sensitive data without human intervention
-- Clean Streamlit interface
-- Fast and lightweight
+- **Automated Detection:** Localizes Aadhaar numbers rapidly using Ultralytics YOLOv8.
+- **Intelligent Redaction:** Black-boxes sensitive digits while strategically keeping the last four digits visible (adjustable).
+- **Batch Processing:** Scripts to process entire folders of incoming documents at once.
+- **Fast Web UI:** Launch the visual interface with a single command to redact via file upload or real-time webcam feed.
+- **Privacy-First:** All processing is done locally; no data ever leaves your device.
 
-## Quickstart
+## 🛠️ Technology Stack
 
-### 1) Install dependencies
+- **Python 3.8+**
+- **YOLOv8** (Ultralytics) for high-accuracy bounding box regression
+- **Tesseract OCR / OpenCV** for precise image preprocessing and text extraction
+- **Streamlit** for rapid UI deployment
+
+## ⚙️ Quickstart Setup
+
+### 1. Install Dependencies
+Ensure you have Python installed, then run the following in your terminal:
 
 ```bash
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-### 2) Ensure model weights are present
+### 2. Prepare the Model
+The repository comes configured out of the box. Ensure your YOLOv8 weights are located at `yolo8_model/best.pt`. (Paths can also be configured dynamically within the Streamlit sidebar).
 
-- Place your YOLOv8 weights at `yolo8_model/best.pt` (already present in this repo). You can choose another path and update it in the app sidebar input.
-
-### 3) Run the Streamlit app
+### 3. Run the Web Application
+Launch the interactive Streamlit dashboard:
 
 ```bash
 streamlit run app.py
 ```
 
-### 4) Use the app
+## 📚 Usage Guide
 
-- In the sidebar, confirm the model path (default `yolo8_model/best.pt`) and confidence threshold.
-- Choose “Upload Image” to redact a single file and download the result.
-- Choose “Live Webcam” to redact in real time from your camera, and use Start/Stop to control the stream.
+### Streamlit Interface
+- **Upload Image:** Select a local `.png`, `.jpg`, or `.webp` file. The app will immediately display the redacted output and provide a download link.
+- **Live Webcam:** Toggle webcam mode to identify and redact Aadhaar numbers on the fly in real-time.
 
-## Notes
+### CLI Batch Processing
+To redact an entire directory of images, place your files inside the `Dataset` folder and run the standalone core logic:
 
-- The webcam mode uses OpenCV to access the local camera. This works best in a local environment. For Streamlit Cloud, consider switching to `st.camera_input` if browser-based capture is preferred.
-- The detection currently redacts all boxes of class ID `0` (Aadhaar number) from the model.
+```bash
+python YOLO.py
+# or using OCR logic
+python redaction.py
+```
+Output results will be generated into the `Result_redaction` folder alongside a processing log (`aadhaar_redaction_log.json`).
+
+---
+<p align="center">
+  <b>Secure • Efficient • Automated</b>
+</p>

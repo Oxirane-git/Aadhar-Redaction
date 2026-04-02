@@ -4,8 +4,8 @@ import cv2
 import pytesseract
 from PIL import Image, ImageDraw
 
-input_folder = "/home/matrix/sahil_project/yolodataset/test/images"
-output_folder = "/home/matrix/sahil_project/Result_redaction"
+input_folder = "Dataset"
+output_folder = "Result_redaction"
 os.makedirs(output_folder, exist_ok=True)
 
 def preprocess_image(image_path):
